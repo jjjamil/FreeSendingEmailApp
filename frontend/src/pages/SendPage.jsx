@@ -138,7 +138,12 @@ export default function SendPage() {
             onManualChange={setManualRows}
             senderEmail={sender.senderEmail}
           />
-          <Editor key={resetKey} onChange={setHtmlBody} />
+          <Editor
+            key={resetKey}
+            onChange={setHtmlBody}
+            subject={sender.subject}
+            onSubjectChange={(v) => handleSenderChange('subject', v)}
+          />
 
           {error && (
             <div className="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl px-4 py-3">

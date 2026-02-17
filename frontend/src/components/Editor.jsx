@@ -21,7 +21,7 @@ const ToolbarButton = ({ onClick, active, title, children }) => (
   </button>
 )
 
-export default function Editor({ onChange }) {
+export default function Editor({ onChange, subject, onSubjectChange }) {
   const imageInputRef = useRef(null)
   const [uploadingImage, setUploadingImage] = useState(false)
 
@@ -95,10 +95,25 @@ export default function Editor({ onChange }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       <div className="p-4 pb-0">
-        <h2 className="text-lg font-semibold text-gray-800 mb-3">✍️ Email Body</h2>
-        <p className="text-xs text-gray-400 mb-3">
-          Use <code className="bg-gray-100 px-1 rounded">{'{Name}'}</code> to personalize each email with the recipient's name.
-        </p>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">✍️ Email</h2>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+          <input
+            type="text"
+            value={subject}
+            onChange={(e) => onSubjectChange(e.target.value)}
+            placeholder="e.g. Need an extra hand with podcast editing?"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Body</label>
+          <p className="text-xs text-gray-400">
+            Use <code className="bg-gray-100 px-1 rounded">{'{Name}'}</code> to personalize each email with the recipient's name.
+          </p>
+        </div>
       </div>
 
       {/* Toolbar */}
