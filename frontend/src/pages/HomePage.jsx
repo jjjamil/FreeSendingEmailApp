@@ -160,6 +160,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Disclaimer */}
+      <section className="relative z-10 max-w-3xl mx-auto px-6 py-8">
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-6 py-5">
+          <h3 className="font-semibold text-amber-800 mb-3">⚠️ Before You Send — Good to Know</h3>
+          <ul className="space-y-2 text-sm text-amber-700 leading-relaxed">
+            <li>• <strong>Email reputation matters.</strong> Emails sent from a new or inactive Gmail account are more likely to land in spam. Use an account with an established sending history.</li>
+            <li>• <strong>Content affects deliverability.</strong> Spammy subject lines, excessive links, or all-caps text can trigger spam filters — even when sent through Gmail.</li>
+            <li>• <strong>List quality is everything.</strong> Sending to old, invalid, or purchased email lists leads to high bounce rates, which can get your Gmail flagged or temporarily blocked.</li>
+            <li>• <strong>We are just the tool.</strong> Deliverability depends on your Gmail account's reputation, your email content, and your recipient list — not us. We don't control whether emails land in inbox or spam.</li>
+          </ul>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="relative z-10 max-w-3xl mx-auto px-6 py-16">
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">Frequently Asked Questions</h2>
