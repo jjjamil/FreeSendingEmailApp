@@ -36,7 +36,8 @@ def run_send_job(
     job["status"] = "running"
 
     try:
-        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
         server.login(sender_email, sender_password)
     except Exception as e:
         job["status"] = "failed"
