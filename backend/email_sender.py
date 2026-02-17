@@ -6,6 +6,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from threading import Thread
 
+EMAIL_REGEX = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+
 # In-memory job store: { job_id: { status, results, total, sent, failed } }
 jobs: dict[str, dict] = {}
 
@@ -64,6 +66,11 @@ def run_send_job(
         for recipient in batch:
             name = recipient.get("name", "")
             email = recipient.get("email", "")
+
+            if not EMAIL_REGEX.match(email):
+                job["failed"] += 1
+                job["results"].append({"email": email, "name": name, "status": "failed", "error": "invalid email address"})
+                continue
 
             try:
                 personalized_html = re.sub(r'\{Name\}', name, html_body, flags=re.IGNORECASE)
