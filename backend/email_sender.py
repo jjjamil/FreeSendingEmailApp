@@ -1,3 +1,4 @@
+import re
 import smtplib
 import time
 import uuid
@@ -51,7 +52,7 @@ def run_send_job(
             email = recipient.get("email", "")
 
             try:
-                personalized_html = html_body.replace("{Name}", name)
+                personalized_html = re.sub(r'\{Name\}', name, html_body, flags=re.IGNORECASE)
 
                 msg = MIMEMultipart()
                 msg["From"] = sender_email
