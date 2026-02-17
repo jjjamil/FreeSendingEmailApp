@@ -42,7 +42,7 @@ export default function App() {
 
   const getRecipients = () => {
     if (recipientMode === 'csv') return csvPreview
-    return manualRows.filter((r) => r.name && r.email)
+    return manualRows.filter((r) => r.email)
   }
 
   const validate = () => {

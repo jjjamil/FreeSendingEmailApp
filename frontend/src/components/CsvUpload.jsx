@@ -11,8 +11,8 @@ export default function CsvUpload({ csvFile, preview, onFileChange }) {
     Papa.parse(file, {
       complete: (result) => {
         const rows = result.data
-          .filter((row) => row.length >= 2 && row[0].trim() && row[1].trim())
-          .map((row) => ({ email: row[0].trim(), name: row[1].trim() }))
+          .filter((row) => row.length >= 1 && row[0].trim())
+          .map((row) => ({ email: row[0].trim(), name: (row[1] || '').trim() }))
         onFileChange(file, rows)
       },
       skipEmptyLines: true,
