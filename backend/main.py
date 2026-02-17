@@ -20,7 +20,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://sendanemail.xyz", "https://www.sendanemail.xyz"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -80,19 +80,6 @@ async def send_emails(
     job_id = start_send_job(sender_email, sender_password, subject, html_body, recipients)
     return JSONResponse({"job_id": job_id, "total": len(recipients)})
 
-
-@app.get("/api/test-smtp")
-async def test_smtp():
-    import socket
-    results = {}
-    for port in [587, 465]:
-        try:
-            sock = socket.create_connection(("smtp.gmail.com", port), timeout=10)
-            sock.close()
-            results[str(port)] = "reachable"
-        except Exception as e:
-            results[str(port)] = str(e)
-    return JSONResponse(results)
 
 
 @app.get("/api/status/{job_id}")

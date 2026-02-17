@@ -9,8 +9,21 @@ from threading import Thread
 # In-memory job store: { job_id: { status, results, total, sent, failed } }
 jobs: dict[str, dict] = {}
 
+JOB_TTL = 3600  # Remove completed jobs after 1 hour
+
+
+def cleanup_old_jobs():
+    cutoff = time.time() - JOB_TTL
+    to_delete = [
+        jid for jid, job in jobs.items()
+        if job.get("status") in ("done", "failed") and job.get("completed_at", 0) < cutoff
+    ]
+    for jid in to_delete:
+        del jobs[jid]
+
 
 def create_job(recipients: list[dict]) -> str:
+    cleanup_old_jobs()
     job_id = str(uuid.uuid4())
     jobs[job_id] = {
         "status": "pending",
@@ -42,6 +55,7 @@ def run_send_job(
     except Exception as e:
         job["status"] = "failed"
         job["error"] = str(e)
+        job["completed_at"] = time.time()
         return
 
     for i in range(0, len(recipients), batch_size):
@@ -75,6 +89,7 @@ def run_send_job(
 
     server.quit()
     job["status"] = "done"
+    job["completed_at"] = time.time()
 
 
 def start_send_job(
