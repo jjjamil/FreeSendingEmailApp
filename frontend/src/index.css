@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background-color: #f3f4f6;
+  color: #111827;
+  min-height: 100vh;
+}
+
+/* TipTap editor content styles */
+.tiptap-editor {
+  outline: none;
+  min-height: 200px;
+}
+
+.tiptap-editor ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.tiptap-editor a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.tiptap-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
