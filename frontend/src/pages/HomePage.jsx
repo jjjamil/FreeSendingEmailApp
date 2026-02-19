@@ -177,6 +177,8 @@ export default function HomePage() {
             <li>• <strong>Email reputation matters.</strong> Emails sent from a new or inactive Gmail account are more likely to land in spam. Use an account with an established sending history.</li>
             <li>• <strong>Content affects deliverability.</strong> Spammy subject lines, excessive links, or all-caps text can trigger spam filters — even when sent through Gmail.</li>
             <li>• <strong>List quality is everything.</strong> Sending to old, invalid, or purchased email lists leads to high bounce rates, which can get your Gmail flagged or temporarily blocked.</li>
+            <li>• <strong>SPF, DKIM, and DMARC are handled by Gmail.</strong> Since emails are sent through Gmail's SMTP servers, Google manages authentication automatically. We don't touch your DNS records — but if you're using a custom domain with Google Workspace, make sure your SPF and DKIM records are properly configured on your end.</li>
+            <li>• <strong>We rely on external services.</strong> Email delivery depends on Gmail's SMTP infrastructure, which is outside our control. If Gmail's servers are down or your account gets rate-limited, sending will be affected.</li>
             <li>• <strong>We are just the tool.</strong> Deliverability depends on your Gmail account's reputation, your email content, and your recipient list — not us. We don't control whether emails land in inbox or spam.</li>
           </ul>
         </div>
