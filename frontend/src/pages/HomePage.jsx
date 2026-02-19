@@ -78,13 +78,21 @@ export default function HomePage() {
           <img src="/icon.svg" alt="Logo" className="w-7 h-7" />
           <span className="font-bold text-gray-800 text-sm">Free Sending Email</span>
         </div>
-        <button
-          onClick={() => navigate('/send')}
-          className="text-sm font-semibold text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all"
-          style={{ background: 'linear-gradient(135deg, #667eea, #764ba2)' }}
-        >
-          Start Sending
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/use-cases')}
+            className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            Use Cases
+          </button>
+          <button
+            onClick={() => navigate('/send')}
+            className="text-sm font-semibold text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all"
+            style={{ background: 'linear-gradient(135deg, #667eea, #764ba2)' }}
+          >
+            Start Sending
+          </button>
+        </div>
       </nav>
 
       {/* Hero */}
