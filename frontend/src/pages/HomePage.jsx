@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import AdBanner from '../components/AdBanner'
 
 const features = [
   {
@@ -185,6 +186,11 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Ad */}
+      <section className="relative z-10 max-w-3xl mx-auto px-6">
+        <AdBanner />
       </section>
 
       {/* CTA */}

@@ -5,6 +5,7 @@ import Editor from '../components/Editor'
 import RecipientInput from '../components/RecipientInput'
 import ProgressModal from '../components/ProgressModal'
 import { startSendJob } from '../api'
+import AdBanner from '../components/AdBanner'
 
 export default function SendPage() {
   const navigate = useNavigate()
@@ -160,6 +161,8 @@ export default function SendPage() {
           >
             {loading ? '⏳ Starting...' : '🚀 Send Emails'}
           </button>
+
+          <AdBanner />
 
           <p className="text-center text-gray-400 text-xs pb-6">
             Your credentials are never stored. All processing happens in your own session.
