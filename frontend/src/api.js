@@ -10,12 +10,16 @@ export async function startSendJob({
   htmlBody,
   recipients,
   csvFile,
+  turnstileToken,
 }) {
   const formData = new FormData()
   formData.append('sender_email', senderEmail)
   formData.append('sender_password', senderPassword)
   formData.append('subject', subject)
   formData.append('html_body', htmlBody)
+  if (turnstileToken) {
+    formData.append('turnstile_token', turnstileToken)
+  }
 
   if (csvFile) {
     formData.append('csv_file', csvFile)

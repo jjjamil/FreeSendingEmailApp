@@ -106,6 +106,8 @@ const jsonLdArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
       gtag('js', new Date())
       gtag('config', 'G-7MC1M3T048')
     </script>
+
+    <slot name="head" />
   </head>
   <body>
     <slot />

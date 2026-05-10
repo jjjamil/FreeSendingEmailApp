@@ -4,6 +4,7 @@ import SenderForm from './SenderForm'
 import Editor from './Editor'
 import RecipientInput from './RecipientInput'
 import ProgressModal from './ProgressModal'
+import Turnstile from './Turnstile'
 import { startSendJob } from '../api'
 
 export default function SendForm() {
@@ -21,6 +22,7 @@ export default function SendForm() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [resetKey, setResetKey] = useState(0)
+  const [turnstileToken, setTurnstileToken] = useState(null)
 
   const handleSenderChange = (field, value) => {
     setSender((prev) => ({ ...prev, [field]: value }))
@@ -57,6 +59,8 @@ export default function SendForm() {
     const limit = isGmail ? 400 : 900
     if (recipients.length > limit)
       return `Recipient count exceeds the ${limit} limit for this sender.`
+    if (!turnstileToken)
+      return 'Please complete the CAPTCHA below before sending.'
     return null
   }
 
@@ -78,6 +82,7 @@ export default function SendForm() {
         htmlBody,
         recipients: recipientMode === 'manual' ? recipients : undefined,
         csvFile: recipientMode === 'csv' ? csvFile : undefined,
+        turnstileToken,
       })
       setJob(result)
     } catch (err) {
@@ -98,6 +103,7 @@ export default function SendForm() {
     setCsvPreview([])
     setManualRows([])
     setError('')
+    setTurnstileToken(null)
     setResetKey((k) => k + 1)
   }
 
@@ -121,6 +127,8 @@ export default function SendForm() {
           subject={sender.subject}
           onSubjectChange={(v) => handleSenderChange('subject', v)}
         />
+
+        <Turnstile key={`ts-${resetKey}`} onToken={setTurnstileToken} />
 
         {error && (
           <div

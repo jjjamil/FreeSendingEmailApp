@@ -55,6 +55,10 @@ const features = [
   description="Send personalized bulk emails using your own Gmail. Upload a CSV or add recipients manually, write your message, and send in minutes — completely free."
   jsonLd={[breadcrumbJsonLd, howToJsonLd]}
 >
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://challenges.cloudflare.com" />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
+  </Fragment>
   <Nav current="/send" />
 
   <main class="relative">
