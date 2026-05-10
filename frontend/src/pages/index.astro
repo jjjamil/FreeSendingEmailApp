@@ -1,0 +1,297 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Nav from '../components/site/Nav.astro'
+import Footer from '../components/site/Footer.astro'
+import CTA from '../components/site/CTA.astro'
+import Section from '../components/site/Section.astro'
+import { FAQS } from '../data/faqs'
+import { USE_CASES } from '../data/useCases'
+import {
+  Mail,
+  FileSpreadsheet,
+  Zap,
+  ShieldCheck,
+  ImageIcon,
+  Activity,
+  Sparkles,
+  ChevronDown,
+  ArrowRight,
+  CheckCircle2,
+  AlertTriangle,
+  KeyRound,
+  Users,
+  PenLine,
+} from 'lucide-react'
+
+const features = [
+  {
+    Icon: Mail,
+    title: 'Personalized with {Name}',
+    desc: 'Drop {Name} anywhere in your subject or body — each email arrives addressed to the right person, automatically.',
+  },
+  {
+    Icon: FileSpreadsheet,
+    title: 'CSV or Manual Import',
+    desc: 'Upload a CSV with your recipient list, or add them row by row. Whatever fits your workflow.',
+  },
+  {
+    Icon: Zap,
+    title: 'Smart Batch Sending',
+    desc: 'Sends in throttled batches that respect Gmail\'s daily limits and avoid spam-trigger patterns.',
+  },
+  {
+    Icon: ShieldCheck,
+    title: 'Your Credentials Only',
+    desc: 'We never store your Gmail password. Everything runs through your own Gmail using a Google App Password.',
+  },
+  {
+    Icon: ImageIcon,
+    title: 'Rich Text + Images',
+    desc: 'Bold, italic, links, bullet lists, and inline images — compressed and hosted automatically.',
+  },
+  {
+    Icon: Activity,
+    title: 'Live Progress Tracking',
+    desc: 'Watch each email send in real time, with a per-recipient status feed and progress bar.',
+  },
+]
+
+const steps = [
+  {
+    Icon: KeyRound,
+    n: '01',
+    title: 'Connect your Gmail',
+    desc: 'Use your Gmail address with a Gmail App Password — not your regular password. Takes 2 minutes to set up.',
+  },
+  {
+    Icon: Users,
+    n: '02',
+    title: 'Add your recipients',
+    desc: 'Upload a CSV (email, name) or add recipients manually. Name column is optional.',
+  },
+  {
+    Icon: PenLine,
+    n: '03',
+    title: 'Write & send',
+    desc: 'Compose in the rich-text editor, then hit Send. Watch the live progress.',
+  },
+]
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+}
+
+const appJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Free Sending Email',
+  url: 'https://sendanemail.xyz',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Any (web-based)',
+  description:
+    'Send personalized bulk emails free using your own Gmail. No sign-up, no monthly fees, supports up to 400 emails per day.',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  featureList: [
+    'Personalized {Name} placeholders',
+    'CSV upload',
+    'Manual recipient entry',
+    'Rich text editor with images',
+    'Live progress tracking',
+    'Up to 400 emails per day',
+  ],
+}
+---
+
+<Layout
+  title="Free Bulk Email Sender for Gmail — No Sign-Up Required"
+  description="Send personalized bulk emails free using your own Gmail. Upload a CSV, write your message, and reach up to 400 recipients per day. No account, no monthly fee."
+  jsonLd={[faqJsonLd, appJsonLd]}
+>
+  <Nav current="/" />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden">
+      <div class="blob bg-brand-200 w-[28rem] h-[28rem] -top-32 -left-32"></div>
+      <div class="blob bg-fuchsia-200 w-[32rem] h-[32rem] -bottom-32 -right-32"></div>
+
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-16 sm:pb-24 text-center">
+        <a
+          href="/use-cases"
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-medium text-gray-700 shadow-sm hover:border-brand-300 hover:text-brand-700 transition-colors mb-6"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-brand-500" aria-hidden="true" />
+          New: 8 use-case guides for cold outreach, recruiting, real estate & more
+          <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+        </a>
+
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 leading-[1.05] tracking-tight">
+          Send Bulk Emails Free<br />
+          <span class="text-brand-gradient">Using Your Own Gmail</span>
+        </h1>
+
+        <p class="mt-6 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          No sign-up. No subscription. No third-party servers storing your data.
+          Just your Gmail account, a recipient list, and your message — sent in minutes.
+        </p>
+
+        <div class="mt-9 flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <a
+            href="/send"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-white font-bold px-7 py-4 rounded-xl bg-brand-gradient shadow-brand-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-base"
+          >
+            Start Sending Free
+            <ArrowRight className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
+          </a>
+          <a
+            href="#how-it-works"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-gray-800 font-semibold px-7 py-4 rounded-xl shadow-sm hover:shadow-md transition-all text-base border border-gray-200"
+          >
+            See how it works
+            <ChevronDown className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
+          </a>
+        </div>
+
+        <ul class="flex flex-wrap justify-center gap-2 mt-9">
+          {['No sign-up required', 'Free forever', 'Your credentials only', 'Up to 400 emails/day'].map((badge) => (
+            <li class="bg-white text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 shadow-sm inline-flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
+              {badge}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <Section
+      eyebrow="What's included"
+      title="Everything you need to send <span class='text-brand-gradient'>at scale</span>"
+      lede="Powerful features, zero cost, no credit card required."
+      tone="soft"
+    >
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {features.map(({ Icon, title, desc }) => (
+          <article class="bg-white rounded-2xl p-6 border border-gray-100 hover:border-brand-200 hover:shadow-md transition-all">
+            <div class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 text-brand-600 mb-4">
+              <Icon className="w-5 h-5" strokeWidth={2.2} aria-hidden="true" />
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-1.5">{title}</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">{desc}</p>
+          </article>
+        ))}
+      </div>
+    </Section>
+
+    <!-- How It Works -->
+    <Section
+      id="how-it-works"
+      eyebrow="3 steps"
+      title="From signup to sent in <span class='text-brand-gradient'>under 5 minutes</span>"
+      lede="No tutorial videos. No onboarding. No tour. Just go."
+    >
+      <ol class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {steps.map(({ Icon, n, title, desc }) => (
+          <li class="relative bg-white rounded-2xl p-6 border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-gradient text-white shadow-brand">
+                <Icon className="w-5 h-5" strokeWidth={2.2} aria-hidden="true" />
+              </span>
+              <span class="text-3xl font-extrabold text-brand-gradient leading-none">{n}</span>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">{title}</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">{desc}</p>
+          </li>
+        ))}
+      </ol>
+    </Section>
+
+    <!-- Use Cases preview -->
+    <Section
+      eyebrow="Who's using it"
+      title="Built for everyone tired of <span class='text-brand-gradient'>$30/month subscriptions</span>"
+      lede="Cold outreach, real-estate follow-ups, recruiter sourcing, school newsletters, and more."
+      tone="soft"
+    >
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {USE_CASES.map((uc) => (
+          <a
+            href={`/use-cases/${uc.slug}`}
+            class="group bg-white rounded-xl p-5 border border-gray-100 hover:border-brand-300 hover:shadow-md transition-all text-left"
+          >
+            <h3 class="font-semibold text-sm text-gray-900 group-hover:text-brand-700 transition-colors mb-1">
+              {uc.shortTitle}
+            </h3>
+            <p class="text-xs text-gray-500 line-clamp-2">{uc.intro.slice(0, 80)}…</p>
+          </a>
+        ))}
+      </div>
+      <div class="mt-8 text-center">
+        <a
+          href="/use-cases"
+          class="inline-flex items-center gap-2 text-sm font-semibold text-brand-700 hover:text-brand-800"
+        >
+          See all use cases
+          <ArrowRight className="w-4 h-4" aria-hidden="true" />
+        </a>
+      </div>
+    </Section>
+
+    <!-- Disclaimer -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+        <div class="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" aria-hidden="true" />
+          <div>
+            <h3 class="font-semibold text-amber-900 mb-2">Before you send — good to know</h3>
+            <ul class="space-y-2 text-sm text-amber-800 leading-relaxed">
+              <li><strong>Email reputation matters.</strong> Emails sent from a brand-new or inactive Gmail are more likely to land in spam. Use an account with an established sending history.</li>
+              <li><strong>Content affects deliverability.</strong> Spammy subject lines, excessive links, or all-caps body text can trigger spam filters even when sent through Gmail.</li>
+              <li><strong>List quality is everything.</strong> Sending to old, invalid, or purchased lists leads to high bounce rates, which can get your Gmail flagged or temporarily blocked.</li>
+              <li><strong>SPF, DKIM, and DMARC are handled by Gmail.</strong> Since emails are sent through Gmail's SMTP, Google handles authentication automatically. We don't touch your DNS records.</li>
+              <li><strong>We rely on external services.</strong> Email delivery depends on Gmail's SMTP infrastructure, which is outside our control. If Gmail is down or rate-limits you, sending will be affected.</li>
+              <li><strong>We are just the tool.</strong> Deliverability depends on your Gmail account's reputation, your content, and your list — not on us.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <Section
+      id="faq"
+      eyebrow="Common questions"
+      title="<span class='text-brand-gradient'>Frequently asked</span> questions"
+      lede="Everything you need to know before your first send."
+    >
+      <div class="max-w-3xl mx-auto space-y-3">
+        {FAQS.map((faq) => (
+          <details class="group bg-white rounded-2xl border border-gray-100 hover:border-brand-200 transition-colors">
+            <summary class="flex items-start justify-between gap-4 px-6 py-5 cursor-pointer list-none">
+              <h3 class="font-semibold text-gray-900 text-sm sm:text-base pr-2">{faq.q}</h3>
+              <ChevronDown
+                className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform flex-shrink-0 mt-0.5"
+                aria-hidden="true"
+              />
+            </summary>
+            <div class="px-6 pb-5 text-sm text-gray-600 leading-relaxed">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </Section>
+
+    <CTA />
+  </main>
+
+  <Footer />
+</Layout>

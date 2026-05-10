@@ -1,0 +1,93 @@
+---
+import { Mail, Send, Menu } from 'lucide-react'
+import { NAV } from '../../data/site'
+
+const { current = '' } = Astro.props
+---
+
+<header class="sticky top-0 z-40 backdrop-blur-md bg-white/75 border-b border-gray-100">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4" aria-label="Primary">
+    <a href="/" class="flex items-center gap-2 group" aria-label="Free Sending Email — home">
+      <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-gradient shadow-brand">
+        <Mail className="w-5 h-5 text-white" strokeWidth={2.4} aria-hidden="true" />
+      </span>
+      <span class="font-bold text-gray-900 text-sm sm:text-base tracking-tight">
+        Free Sending Email
+      </span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-1">
+      {NAV.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'px-3 py-2 text-sm font-medium rounded-lg transition-colors',
+            current === item.href
+              ? 'text-brand-700 bg-brand-50'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a
+        href="/send"
+        class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-white px-4 py-2 rounded-lg bg-brand-gradient shadow-brand hover:shadow-brand-lg hover:-translate-y-px transition-all"
+      >
+        <Send className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
+        Start Sending
+      </a>
+      <a
+        href="/send"
+        class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-brand-gradient text-white shadow-brand"
+        aria-label="Start sending"
+      >
+        <Send className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
+      </a>
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-700 hover:bg-gray-100"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <Menu className="w-5 h-5" aria-hidden="true" />
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="md:hidden hidden border-t border-gray-100 bg-white">
+    <div class="px-4 py-3 space-y-1">
+      {NAV.map((item) => (
+        <a
+          href={item.href}
+          class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    const btn = document.getElementById('mobile-menu-toggle')
+    const menu = document.getElementById('mobile-menu')
+    if (!btn || !menu) return
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden') === false
+      btn.setAttribute('aria-expanded', String(open))
+    })
+    menu.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => {
+        menu.classList.add('hidden')
+        btn.setAttribute('aria-expanded', 'false')
+      }),
+    )
+  })()
+</script>

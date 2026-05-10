@@ -1,0 +1,115 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import Nav from '../../components/site/Nav.astro'
+import Footer from '../../components/site/Footer.astro'
+import CTA from '../../components/site/CTA.astro'
+import { USE_CASES } from '../../data/useCases'
+import {
+  Snowflake, Briefcase, Megaphone, Home, Target,
+  UserRound, GraduationCap, TrendingUp, ArrowRight
+} from 'lucide-react'
+
+const ICON_MAP = {
+  Snowflake, Briefcase, Megaphone, Home, Target,
+  UserRound, GraduationCap, TrendingUp,
+}
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://sendanemail.xyz/' },
+    { '@type': 'ListItem', position: 2, name: 'Use Cases', item: 'https://sendanemail.xyz/use-cases' },
+  ],
+}
+
+const collectionJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Free Bulk Email Use Cases',
+  description: 'How real teams use Free Sending Email instead of paying for Mailchimp, Instantly, Lemlist, Apollo, and other expensive tools.',
+  url: 'https://sendanemail.xyz/use-cases',
+  hasPart: USE_CASES.map((uc) => ({
+    '@type': 'Article',
+    name: uc.title,
+    url: `https://sendanemail.xyz/use-cases/${uc.slug}`,
+    description: uc.seoDescription,
+  })),
+}
+---
+
+<Layout
+  title="Use Cases — Who Uses a Free Bulk Email Sender?"
+  description="From cold email outreach to school newsletters and recruiter sourcing — see how real teams use Free Sending Email instead of paying for Mailchimp, Instantly, or Apollo."
+  jsonLd={[breadcrumbJsonLd, collectionJsonLd]}
+>
+  <Nav current="/use-cases" />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden">
+      <div class="blob bg-brand-200 w-96 h-96 -top-24 -left-24"></div>
+      <div class="blob bg-fuchsia-200 w-96 h-96 -bottom-24 -right-24"></div>
+
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 pt-14 pb-12 text-center">
+        <nav class="mb-6 text-xs text-gray-500" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-brand-700">Home</a>
+          <span class="mx-2 text-gray-300">/</span>
+          <span class="text-gray-700 font-medium">Use Cases</span>
+        </nav>
+
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+          Who Uses <span class="text-brand-gradient">Free Sending Email?</span>
+        </h1>
+        <p class="mt-5 text-lg text-gray-600 max-w-2xl mx-auto">
+          From cold outreach to client communications — here's how real people use it instead of paying for $30+/month email marketing tools.
+        </p>
+      </div>
+    </section>
+
+    <!-- Use case grid -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {USE_CASES.map((uc) => {
+          const Icon = ICON_MAP[uc.icon]
+          return (
+            <a
+              href={`/use-cases/${uc.slug}`}
+              class="group relative bg-white rounded-2xl p-6 sm:p-7 border border-gray-100 hover:border-brand-300 hover:shadow-lg transition-all overflow-hidden"
+            >
+              <div class="flex items-start gap-4 mb-3">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-600 group-hover:bg-brand-gradient group-hover:text-white transition-colors flex-shrink-0">
+                  {Icon && <Icon className="w-5 h-5" strokeWidth={2.2} aria-hidden="true" />}
+                </span>
+                <div class="flex-1 min-w-0">
+                  <h2 class="text-lg font-bold text-gray-900 group-hover:text-brand-700 transition-colors">
+                    {uc.title}
+                  </h2>
+                </div>
+              </div>
+              <p class="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                {uc.intro}
+              </p>
+              {uc.compare.length > 0 && (
+                <div class="flex flex-wrap items-center gap-1.5 mb-4">
+                  <span class="text-xs text-gray-400">vs:</span>
+                  {uc.compare.slice(0, 3).map((c) => (
+                    <span class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">{c.name}</span>
+                  ))}
+                </div>
+              )}
+              <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 group-hover:gap-2.5 transition-all">
+                Read use case
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </span>
+            </a>
+          )
+        })}
+      </div>
+    </section>
+
+    <CTA title="Don't see your use case?" subtitle="It works for any list of recipients you can put in a CSV." buttonLabel="Try it Free" />
+  </main>
+
+  <Footer />
+</Layout>

@@ -8,7 +8,7 @@ export default function AdBanner() {
       if (adRef.current && adRef.current.offsetWidth > 0) {
         ;(window.adsbygoogle = window.adsbygoogle || []).push({})
       }
-    } catch (e) {
+    } catch {
       // adsbygoogle already initialized
     }
   }, [])

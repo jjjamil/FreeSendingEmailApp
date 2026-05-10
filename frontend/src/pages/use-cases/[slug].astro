@@ -1,0 +1,210 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import Nav from '../../components/site/Nav.astro'
+import Footer from '../../components/site/Footer.astro'
+import CTA from '../../components/site/CTA.astro'
+import { USE_CASES } from '../../data/useCases'
+import {
+  Snowflake, Briefcase, Megaphone, Home, Target,
+  UserRound, GraduationCap, TrendingUp,
+  ArrowRight, ArrowLeft, Check, ExternalLink,
+} from 'lucide-react'
+
+const ICON_MAP = {
+  Snowflake, Briefcase, Megaphone, Home, Target,
+  UserRound, GraduationCap, TrendingUp,
+}
+
+export async function getStaticPaths() {
+  const { USE_CASES } = await import('../../data/useCases')
+  return USE_CASES.map((uc) => ({
+    params: { slug: uc.slug },
+    props: { useCase: uc },
+  }))
+}
+
+const { useCase } = Astro.props
+const Icon = ICON_MAP[useCase.icon]
+
+const url = `https://sendanemail.xyz/use-cases/${useCase.slug}`
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://sendanemail.xyz/' },
+    { '@type': 'ListItem', position: 2, name: 'Use Cases', item: 'https://sendanemail.xyz/use-cases' },
+    { '@type': 'ListItem', position: 3, name: useCase.title, item: url },
+  ],
+}
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: useCase.seoTitle,
+  description: useCase.seoDescription,
+  url,
+  datePublished: '2026-02-01',
+  dateModified: new Date().toISOString().split('T')[0],
+  author: {
+    '@type': 'Organization',
+    name: 'Free Sending Email',
+    url: 'https://sendanemail.xyz',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Free Sending Email',
+    url: 'https://sendanemail.xyz',
+  },
+  about: useCase.title,
+  keywords: useCase.metaKeywords,
+}
+
+const otherUseCases = USE_CASES.filter((u) => u.slug !== useCase.slug).slice(0, 3)
+---
+
+<Layout
+  title={useCase.seoTitle}
+  description={useCase.seoDescription}
+  ogType="article"
+  jsonLd={[breadcrumbJsonLd, articleJsonLd]}
+>
+  <Nav current="/use-cases" />
+
+  <main>
+    <!-- Hero -->
+    <article class="relative overflow-hidden">
+      <div class="blob bg-brand-200 w-80 h-80 -top-24 -left-16"></div>
+      <div class="blob bg-fuchsia-200 w-80 h-80 -bottom-24 -right-16"></div>
+
+      <div class="relative max-w-3xl mx-auto px-4 sm:px-6 pt-12 pb-10">
+        <nav class="mb-6 text-xs text-gray-500" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-brand-700">Home</a>
+          <span class="mx-2 text-gray-300">/</span>
+          <a href="/use-cases" class="hover:text-brand-700">Use Cases</a>
+          <span class="mx-2 text-gray-300">/</span>
+          <span class="text-gray-700 font-medium">{useCase.title}</span>
+        </nav>
+
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-gradient text-white shadow-brand mb-5">
+          {Icon && <Icon className="w-6 h-6" strokeWidth={2.2} aria-hidden="true" />}
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+          {useCase.title}
+        </h1>
+
+        <p class="mt-5 text-lg text-gray-600 leading-relaxed">{useCase.intro}</p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            href="/send"
+            class="inline-flex items-center gap-2 text-white font-bold px-6 py-3 rounded-xl bg-brand-gradient shadow-brand hover:shadow-brand-lg hover:-translate-y-0.5 transition-all text-sm"
+          >
+            Start Sending Free
+            <ArrowRight className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
+          </a>
+          <a
+            href="/use-cases"
+            class="inline-flex items-center gap-2 bg-white text-gray-700 font-semibold px-6 py-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+            All Use Cases
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Body sections -->
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 pb-16 space-y-8">
+      {useCase.sections.map((s) => (
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 tracking-tight">{s.h}</h2>
+          <p class="text-base text-gray-600 leading-relaxed">{s.p}</p>
+        </div>
+      ))}
+
+      {useCase.compare.length > 0 && (
+        <div class="bg-gradient-to-br from-brand-50 to-fuchsia-50 border border-brand-100 rounded-2xl p-7 mt-12">
+          <h2 class="text-xl font-bold text-gray-900 mb-2">Tools you'd otherwise be paying for</h2>
+          <p class="text-sm text-gray-600 mb-5">
+            Same use case, no monthly fee. Here's what {useCase.shortTitle.toLowerCase()} typically pay for:
+          </p>
+          <ul class="space-y-2">
+            {useCase.compare.map((c) => (
+              <li class="flex items-center justify-between bg-white rounded-lg px-4 py-3 border border-gray-100">
+                <a
+                  href={c.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-medium text-gray-900 hover:text-brand-700 inline-flex items-center gap-1.5"
+                >
+                  {c.name}
+                  <ExternalLink className="w-3.5 h-3.5 text-gray-400" aria-hidden="true" />
+                </a>
+                <span class="text-sm text-gray-500">{c.priceNote}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- What you get -->
+      <div class="bg-white border border-gray-100 rounded-2xl p-7 mt-8">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">What you get with Free Sending Email</h2>
+        <ul class="grid sm:grid-cols-2 gap-3 text-sm">
+          {[
+            'Personalized {Name} placeholders',
+            'CSV upload or manual entry',
+            'Rich text editor with images',
+            'Live progress tracking',
+            'Up to 400 emails per day',
+            'No account required',
+            'No monthly subscription',
+            'Your credentials never stored',
+          ].map((item) => (
+            <li class="flex items-start gap-2 text-gray-700">
+              <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" strokeWidth={3} aria-hidden="true" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Other use cases -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+      <div class="border-t border-gray-100 pt-12">
+        <h2 class="text-2xl font-bold text-gray-900 text-center mb-2 tracking-tight">Other use cases</h2>
+        <p class="text-gray-500 text-sm text-center mb-8">Same tool, different problem.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {otherUseCases.map((uc) => {
+            const OIcon = ICON_MAP[uc.icon]
+            return (
+              <a
+                href={`/use-cases/${uc.slug}`}
+                class="group bg-white rounded-xl p-5 border border-gray-100 hover:border-brand-300 hover:shadow-md transition-all"
+              >
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-brand-50 text-brand-600 mb-3">
+                  {OIcon && <OIcon className="w-4 h-4" strokeWidth={2.2} aria-hidden="true" />}
+                </span>
+                <h3 class="font-semibold text-sm text-gray-900 group-hover:text-brand-700 transition-colors mb-1">
+                  {uc.title}
+                </h3>
+                <p class="text-xs text-gray-500 line-clamp-2">{uc.intro.slice(0, 90)}…</p>
+              </a>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+
+    <CTA
+      title={`Ready to try it for ${useCase.shortTitle.toLowerCase()}?`}
+      subtitle="No account needed. Just your Gmail and your message."
+    />
+  </main>
+
+  <Footer />
+</Layout>

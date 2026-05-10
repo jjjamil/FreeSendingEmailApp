@@ -1,0 +1,30 @@
+---
+const { eyebrow, title, lede, id, tone = 'light', className = '' } = Astro.props
+
+const toneClasses = {
+  light: 'bg-white',
+  soft: 'bg-gradient-to-b from-white via-brand-50/40 to-white',
+  dark: 'bg-gray-900 text-white',
+}
+---
+
+<section id={id} class:list={['relative py-16 sm:py-20', toneClasses[tone] || toneClasses.light, className]}>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    {(eyebrow || title || lede) && (
+      <div class="text-center mb-12 max-w-2xl mx-auto">
+        {eyebrow && (
+          <p class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-3">{eyebrow}</p>
+        )}
+        {title && (
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight" set:html={title} />
+        )}
+        {lede && (
+          <p class:list={['mt-4 text-base sm:text-lg', tone === 'dark' ? 'text-gray-300' : 'text-gray-600']}>
+            {lede}
+          </p>
+        )}
+      </div>
+    )}
+    <slot />
+  </div>
+</section>

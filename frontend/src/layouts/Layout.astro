@@ -1,0 +1,113 @@
+---
+import '../styles/global.css'
+
+const SITE_URL = 'https://sendanemail.xyz'
+const SITE_NAME = 'Free Sending Email'
+const DEFAULT_TITLE = 'Free Bulk Email Sender for Gmail — No Sign-Up, No Cost'
+const DEFAULT_DESC =
+  'Send personalized bulk emails free using your own Gmail. Upload a CSV, write your message, and reach up to 400 recipients per day. No account, no monthly fee.'
+
+interface Props {
+  title?: string
+  description?: string
+  canonical?: string
+  ogImage?: string
+  ogType?: 'website' | 'article'
+  noindex?: boolean
+  jsonLd?: Record<string, any> | Record<string, any>[]
+}
+
+const {
+  title,
+  description = DEFAULT_DESC,
+  canonical,
+  ogImage = '/og-image.svg',
+  ogType = 'website',
+  noindex = false,
+  jsonLd,
+} = Astro.props
+
+const fullTitle = title
+  ? `${title} | ${SITE_NAME}`
+  : DEFAULT_TITLE
+
+const canonicalUrl = canonical
+  ? new URL(canonical, SITE_URL).toString()
+  : new URL(Astro.url.pathname, SITE_URL).toString()
+
+const ogImageUrl = new URL(ogImage, SITE_URL).toString()
+
+const jsonLdArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#4f46e5" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />}
+
+    <meta name="author" content="Free Sending Email App" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://api.sendanemail.xyz" />
+
+    <!-- JSON-LD structured data -->
+    {jsonLdArray.map((data) => (
+      <script type="application/ld+json" set:html={JSON.stringify(data)} is:inline />
+    ))}
+
+    <!-- Google AdSense -->
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6225160369861502"
+      crossorigin="anonymous"
+      is:inline
+    ></script>
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-7MC1M3T048"
+      is:inline
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-7MC1M3T048')
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

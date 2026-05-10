@@ -1,0 +1,31 @@
+---
+import { Send, ArrowRight } from 'lucide-react'
+
+const {
+  title = 'Ready to send your first campaign?',
+  subtitle = 'No account needed. Just your Gmail and your message.',
+  buttonLabel = 'Start Sending Free',
+} = Astro.props
+---
+
+<section class="relative max-w-4xl mx-auto px-4 sm:px-6 py-16">
+  <div class="relative overflow-hidden rounded-3xl bg-brand-gradient p-10 sm:p-14 text-center shadow-brand-lg">
+    <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/10 blur-2xl"></div>
+    <div class="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-white/10 blur-2xl"></div>
+
+    <div class="relative">
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 mb-5 backdrop-blur-sm">
+        <Send className="w-6 h-6 text-white" strokeWidth={2.4} aria-hidden="true" />
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3 tracking-tight">{title}</h2>
+      <p class="text-white/80 text-sm sm:text-base mb-7 max-w-md mx-auto">{subtitle}</p>
+      <a
+        href="/send"
+        class="inline-flex items-center gap-2 bg-white text-brand-700 font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-sm sm:text-base"
+      >
+        {buttonLabel}
+        <ArrowRight className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+</section>

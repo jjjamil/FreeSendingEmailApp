@@ -1,5 +1,6 @@
 import Papa from 'papaparse'
 import { useRef } from 'react'
+import { UploadCloud, FileText, X, AlertTriangle } from 'lucide-react'
 
 export default function CsvUpload({ csvFile, preview, onFileChange }) {
   const inputRef = useRef(null)
@@ -25,9 +26,13 @@ export default function CsvUpload({ csvFile, preview, onFileChange }) {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div
-        className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-400 transition-colors"
+        className={`relative border-2 border-dashed rounded-xl p-7 text-center cursor-pointer transition-colors ${
+          csvFile
+            ? 'border-emerald-200 bg-emerald-50/40'
+            : 'border-gray-200 hover:border-brand-300 hover:bg-brand-50/40'
+        }`}
         onClick={() => inputRef.current?.click()}
       >
         <input
@@ -38,46 +43,53 @@ export default function CsvUpload({ csvFile, preview, onFileChange }) {
           onChange={handleFile}
         />
         {csvFile ? (
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-gray-700">{csvFile.name}</p>
-            <p className="text-xs text-gray-400">{preview.length} recipient(s) found</p>
+          <div className="flex flex-col items-center gap-1.5">
+            <FileText className="w-6 h-6 text-emerald-600" aria-hidden="true" />
+            <p className="text-sm font-semibold text-gray-900">{csvFile.name}</p>
+            <p className="text-xs text-gray-500">{preview.length} recipient(s) loaded</p>
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); clearFile() }}
-              className="text-xs text-red-400 hover:text-red-600 font-medium mt-1"
+              onClick={(e) => {
+                e.stopPropagation()
+                clearFile()
+              }}
+              className="mt-1 inline-flex items-center gap-1 text-xs text-red-600 hover:text-red-700 font-medium"
             >
+              <X className="w-3.5 h-3.5" aria-hidden="true" />
               Remove file
             </button>
           </div>
         ) : (
-          <div className="space-y-1">
-            <p className="text-sm text-gray-500">Click to upload a CSV file</p>
-            <p className="text-xs text-gray-400">
-              Expected columns: <strong>email</strong> (col 1), <strong>name</strong> (col 2)
+          <div className="flex flex-col items-center gap-2">
+            <UploadCloud className="w-7 h-7 text-gray-400" aria-hidden="true" />
+            <p className="text-sm font-medium text-gray-700">Click to upload a CSV</p>
+            <p className="text-xs text-gray-500">
+              Columns: <strong>email</strong> (col 1), <strong>name</strong> (col 2, optional)
             </p>
-            <p className="text-xs text-amber-500 font-medium mt-1">
-              ⚠️ No header row — start directly with data on row 1
+            <p className="text-xs text-amber-700 font-medium inline-flex items-center gap-1 mt-0.5">
+              <AlertTriangle className="w-3 h-3" aria-hidden="true" />
+              No header row — start data on row 1
             </p>
           </div>
         )}
       </div>
 
       {preview.length > 0 && (
-        <div className="overflow-x-auto rounded-lg border border-gray-200 max-h-48 overflow-y-auto">
+        <div className="overflow-x-auto rounded-xl border border-gray-200 max-h-56 overflow-y-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 text-left sticky top-0">
               <tr>
-                <th className="px-4 py-2 font-medium">#</th>
-                <th className="px-4 py-2 font-medium">Email</th>
-                <th className="px-4 py-2 font-medium">Name</th>
+                <th className="px-4 py-2 font-medium text-xs uppercase tracking-wider">#</th>
+                <th className="px-4 py-2 font-medium text-xs uppercase tracking-wider">Email</th>
+                <th className="px-4 py-2 font-medium text-xs uppercase tracking-wider">Name</th>
               </tr>
             </thead>
             <tbody>
               {preview.map((row, i) => (
                 <tr key={i} className="border-t border-gray-100">
-                  <td className="px-4 py-1 text-gray-400">{i + 1}</td>
-                  <td className="px-4 py-1">{row.email}</td>
-                  <td className="px-4 py-1">{row.name}</td>
+                  <td className="px-4 py-1.5 text-gray-400">{i + 1}</td>
+                  <td className="px-4 py-1.5 text-gray-700">{row.email}</td>
+                  <td className="px-4 py-1.5 text-gray-700">{row.name || '—'}</td>
                 </tr>
               ))}
             </tbody>

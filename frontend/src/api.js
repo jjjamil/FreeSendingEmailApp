@@ -1,8 +1,16 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_API_URL || ''
+const BASE_URL =
+  import.meta.env.PUBLIC_API_URL || import.meta.env.VITE_API_URL || ''
 
-export async function startSendJob({ senderEmail, senderPassword, subject, htmlBody, recipients, csvFile }) {
+export async function startSendJob({
+  senderEmail,
+  senderPassword,
+  subject,
+  htmlBody,
+  recipients,
+  csvFile,
+}) {
   const formData = new FormData()
   formData.append('sender_email', senderEmail)
   formData.append('sender_password', senderPassword)
